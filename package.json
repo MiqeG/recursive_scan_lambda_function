@@ -1,0 +1,23 @@
+{
+  "name": "recursive_scan_function",
+  "version": "1.0.0",
+  "description": "recursive scan function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf dist",
+    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2021 --outfile=dist/index.js",
+    "postbuild": "cd dist && zip -r index.zip index.mjs*"
+  },
+  "author": "MGG",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.114",
+    "esbuild": "^0.17.16"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.310.0",
+    "@aws-sdk/client-lambda": "^3.310.0",
+    "aws-sdk": "^2.1357.0"
+  }
+}
