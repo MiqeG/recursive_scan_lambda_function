@@ -16,7 +16,7 @@ interface functionEvent extends APIGatewayEvent {
 export const handler = async (event: functionEvent, context: Context): Promise<APIGatewayProxyResult> => {
     try {
         event = await startScan(event)
-        //check for LastEvaluatedKey to know if there are items left to scan
+        //check for LastEvaluatedKey to know if there are items left to scan and invoke next function
         if (event.LastEvaluatedKey)
             await startInvoke(event)
         else console.log('NO MORE ITEMS TO SCAN !')
@@ -51,6 +51,7 @@ function startScan(event: functionEvent): Promise<functionEvent> {
                 if (!item.codeUAI) console.error('No codeUAI variable present for ', JSON.stringify(item))
             })
             event.ScannedCount += response.Items?.length || 0
+            //store last evalutaed key by scan in order to invoke next function to start at this point
             event.LastEvaluatedKey = response.LastEvaluatedKey
             console.log('SCANNED COUNT ', event.ScannedCount)
             return resolve(event)
